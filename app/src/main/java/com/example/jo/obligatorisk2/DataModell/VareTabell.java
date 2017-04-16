@@ -25,6 +25,12 @@ public enum VareTabell {
     private String value;
 
     static {
+        VareTabell[] vv = VareTabell.values();
+        int i = 0;
+        for(VareTabell v : vv) {
+            v.value = Desc[i++];
+        }
+        /*
         TABELL_NAVN.value = Desc[0];
         VARENUMMER.value = Desc[1];
         BETEGNELSE.value = Desc[2];
@@ -32,6 +38,7 @@ public enum VareTabell {
         KATNR.value = Desc[4];
         ANTALL.value = Desc[5];
         HYLLE.value = Desc[6];
+        */
     }
 
     public String toString() {

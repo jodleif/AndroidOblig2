@@ -1,5 +1,7 @@
 package com.example.jo.obligatorisk2.DataModell;
 
+import com.example.jo.obligatorisk2.DataModell.Vare;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

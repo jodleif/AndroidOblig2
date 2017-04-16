@@ -9,8 +9,10 @@ public enum Type {
     PUT,
     POST,
     DELETE;
+
     private static final String[] vv = {"GET","PUT","POST","DELETE"};
     private String value;
+    // Initialize values for enum options
     static {
         Type[] v  = Type.values();
         int i = 0;
