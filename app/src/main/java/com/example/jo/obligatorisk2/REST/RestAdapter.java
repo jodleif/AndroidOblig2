@@ -2,6 +2,8 @@ package com.example.jo.obligatorisk2.REST;
 
 import android.os.AsyncTask;
 
+import com.example.jo.obligatorisk2.DataModell.Vare;
+
 /**
  * Created by Jo on 16.04.2017.
  */

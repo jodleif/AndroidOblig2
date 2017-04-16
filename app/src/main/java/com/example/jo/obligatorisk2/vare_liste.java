@@ -1,19 +1,25 @@
 package com.example.jo.obligatorisk2;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class vare_liste extends Activity {
+import com.example.jo.obligatorisk2.DataModell.Vare;
+import com.example.jo.obligatorisk2.REST.RestAdapter;
+
+import java.util.ArrayList;
+
+public class vare_liste extends AppCompatActivity {
     final public static String URI = "http://itfag.usn.no/~211629/api.php/Vare?order=Betegnelse,asc";
     private ArrayList<Vare> varer = new ArrayList<Vare>();
     private ArrayAdapter<Vare> vareAdapter = null;
     private ListView VareListen;
-    private RestDbAdapter restDbAdapter = new RestDbAdapter();
+    private RestAdapter restDbAdapter = new RestAdapter();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
