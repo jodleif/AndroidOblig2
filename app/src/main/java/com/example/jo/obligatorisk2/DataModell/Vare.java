@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static com.example.jo.obligatorisk2.DataModell.VareTabell.*;
@@ -37,6 +38,21 @@ public class Vare {
     }
 
     public Vare(JSONObject vare)
+    {
+       fromJSON(vare);
+    }
+
+    public Vare(String JSONVare) throws InvalidObjectException
+    {
+        try {
+            JSONObject vare = new JSONObject(JSONVare);
+            fromJSON(vare);
+        } catch (JSONException e) {
+            throw new InvalidObjectException("Failed JSON parse");
+        }
+    }
+
+    private void fromJSON(JSONObject vare)
     {
         vareNummer = vare.optString(VARENUMMER.toString());
         betegnelse = vare.optString(BETEGNELSE.toString());
@@ -89,5 +105,29 @@ public class Vare {
                 ", antall=" + antall +
                 ", hylle='" + hylle + '\'' +
                 '}';
+    }
+
+    public String getVareNummer() {
+        return vareNummer;
+    }
+
+    public String getBetegnelse() {
+        return betegnelse;
+    }
+
+    public double getPris() {
+        return pris;
+    }
+
+    public int getKatnr() {
+        return katnr;
+    }
+
+    public int getAntall() {
+        return antall;
+    }
+
+    public String getHylle() {
+        return hylle;
     }
 }
