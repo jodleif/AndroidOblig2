@@ -1,7 +1,11 @@
 package com.example.jo.obligatorisk2.DataModell;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import static com.example.jo.obligatorisk2.DataModell.VareTabell.*;
 
 
@@ -12,7 +16,7 @@ import static com.example.jo.obligatorisk2.DataModell.VareTabell.*;
 public class Vare {
     // Felter
     private String vareNummer;
-    private String begegnelse;
+    private String betegnelse;
     private double pris;
     private int katnr;
     private int antall;
@@ -23,13 +27,39 @@ public class Vare {
         throw new UnsupportedOperationException();
     }
 
-    public Vare(String vareNummer, String begegnelse, double pris, int katnr, int antall, String hylle) {
+    public Vare(String vareNummer, String betegnelse, double pris, int katnr, int antall, String hylle) {
         this.vareNummer = vareNummer;
-        this.begegnelse = begegnelse;
+        this.betegnelse = betegnelse;
         this.pris = pris;
         this.katnr = katnr;
         this.antall = antall;
         this.hylle = hylle;
+    }
+
+    public Vare(JSONObject vare)
+    {
+        vareNummer = vare.optString(VARENUMMER.toString());
+        betegnelse = vare.optString(BETEGNELSE.toString());
+        pris = vare.optDouble(PRIS.toString());
+        katnr = vare.optInt(KATNR.toString());
+        antall = vare.optInt(ANTALL.toString());
+        hylle = vare.optString(HYLLE.toString());
+    }
+
+    public static ArrayList<Vare> vareListe(String vareListe)
+    {
+        ArrayList<Vare> varer = new ArrayList<>();
+        try {
+            JSONObject data = new JSONObject(vareListe);
+            JSONArray parseVarer = data.optJSONArray(TABELL_NAVN.toString());
+
+            for (int i = 0; i < parseVarer.length();++i) {
+                varer.add(new Vare(parseVarer.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            System.err.println("Error deserializing JSON-array");
+        }
+        return varer;
     }
 
     public JSONObject toJSONObject()
@@ -37,15 +67,27 @@ public class Vare {
         JSONObject vare = new JSONObject();
         try {
             vare.put(VARENUMMER.toString(), this.vareNummer);
-            vare.put(BETEGNELSE.toString(), this.begegnelse);
+            vare.put(BETEGNELSE.toString(), this.betegnelse);
             vare.put(PRIS.toString(), this.pris);
             vare.put(KATNR.toString(), this.katnr);
             vare.put(ANTALL.toString(), this.antall);
             vare.put(HYLLE.toString(), this.hylle);
         } catch (JSONException e) {
-            System.err.println("Failed JSON parse");
+            System.err.println("Failed JSON serialization");
             return null;
         }
         return vare;
+    }
+
+    @Override
+    public String toString() {
+        return "Vare{" +
+                "vareNummer='" + vareNummer + '\'' +
+                ", betegnelse='" + betegnelse + '\'' +
+                ", pris=" + pris +
+                ", katnr=" + katnr +
+                ", antall=" + antall +
+                ", hylle='" + hylle + '\'' +
+                '}';
     }
 }
