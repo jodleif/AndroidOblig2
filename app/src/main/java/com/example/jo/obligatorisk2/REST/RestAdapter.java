@@ -8,7 +8,12 @@ import android.os.AsyncTask;
 
 public class RestAdapter {
 
-    public class VareAdapter extends AsyncTask<String, String, Long> {
+    private VareAdapter asyncAdapter = new VareAdapter();
+    public void insertVare(Vare vare)
+    {
+
+    }
+    private class VareAdapter extends AsyncTask<String, String, Long> {
 
         @Override
         protected Long doInBackground(String... params) {
