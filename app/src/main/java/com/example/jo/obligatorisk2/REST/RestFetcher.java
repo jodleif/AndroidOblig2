@@ -26,6 +26,11 @@ public class RestFetcher {
         this.cb = cb;
     }
 
+    public void getVareListe()
+    {
+        asyncFetcher.execute();
+    }
+
     private class Fetcher extends AsyncTask<String, String, Long> {
         private String resultat;
         @Override

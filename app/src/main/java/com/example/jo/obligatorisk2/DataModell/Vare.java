@@ -12,6 +12,7 @@ import static com.example.jo.obligatorisk2.DataModell.VareTabell.*;
 
 /**
  * Created by Jo on 16.04.2017.
+ *
  */
 
 public class Vare {
@@ -97,6 +98,9 @@ public class Vare {
 
     @Override
     public String toString() {
+        return String.format("[%s] %s : %f", vareNummer, betegnelse, pris);
+    }
+    public String toDebugString() {
         return "Vare{" +
                 "vareNummer='" + vareNummer + '\'' +
                 ", betegnelse='" + betegnelse + '\'' +

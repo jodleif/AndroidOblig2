@@ -10,22 +10,30 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.jo.obligatorisk2.DataModell.Vare;
+import com.example.jo.obligatorisk2.REST.Callback;
 import com.example.jo.obligatorisk2.REST.RestAdapter;
+import com.example.jo.obligatorisk2.REST.RestFetcher;
 
 import java.util.ArrayList;
 
-public class vare_liste extends AppCompatActivity {
+public class vare_liste extends AppCompatActivity implements Callback{
     final public static String URI = "http://itfag.usn.no/~211629/api.php/Vare?order=Betegnelse,asc";
     private ArrayList<Vare> varer = new ArrayList<Vare>();
     private ArrayAdapter<Vare> vareAdapter = null;
     private ListView VareListen;
     private RestAdapter restDbAdapter = new RestAdapter();
+    private RestFetcher restFetcher = new RestFetcher(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vare_liste);
+        VareListen = (ListView) findViewById(R.id.vare_liste);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //if(isOnline()) {
+            restFetcher.getVareListe();
+        //}
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -37,4 +45,19 @@ public class vare_liste extends AppCompatActivity {
         });
     }
 
+    public void updateVareListe(ArrayList<Vare> varer)
+    {
+        vareAdapter = new ArrayAdapter<Vare>(this, android.R.layout.simple_list_item_1, varer);
+        VareListen.setAdapter(vareAdapter);
+    }
+    @Override
+    public void HandleResult(String result) {
+        varer = Vare.vareListe(result);
+        updateVareListe(varer);
+    }
+
+    @Override
+    public void HandleError() {
+        // on error
+    }
 }
