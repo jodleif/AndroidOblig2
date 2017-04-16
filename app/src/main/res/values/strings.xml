@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Obligatorisk2</string>
+    <string name="title_activity_vare_liste">vare_liste</string>
+    <string name="action_settings">Settings</string>
+</resources>
