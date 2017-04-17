@@ -2,7 +2,6 @@ package com.example.jo.obligatorisk2;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,14 +30,11 @@ public class VareListe extends AppCompatActivity implements RCallback {
         //if(isOnline()) {
             restDbAdapter.getVarer();
         //}
-
+        final VareListe self = this;
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
-                KategoriFragment fragment = new KategoriFragment();
-                fm.beginTransaction().add(fragment, "filter").commit();
             }
         });
     }
