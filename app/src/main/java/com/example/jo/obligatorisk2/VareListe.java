@@ -3,7 +3,9 @@ package com.example.jo.obligatorisk2;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -11,6 +13,8 @@ import com.example.jo.obligatorisk2.DataModell.Vare;
 import com.example.jo.obligatorisk2.REST.RCallback;
 import com.example.jo.obligatorisk2.REST.RestAdapter;
 import com.example.jo.obligatorisk2.REST.Type;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -30,13 +34,7 @@ public class VareListe extends AppCompatActivity implements RCallback {
         //if(isOnline()) {
             restDbAdapter.getVarer();
         //}
-        final VareListe self = this;
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+        addClickHandlers();
     }
 
     public void updateVareListe(ArrayList<Vare> varer)
@@ -49,9 +47,33 @@ public class VareListe extends AppCompatActivity implements RCallback {
         if(t == GET) {
             varer = Vare.vareListe(result);
             updateVareListe(varer);
+        } else {
+            restDbAdapter.getVarer();
         }
     }
 
+    private void addClickHandlers()
+    {
+        if(VareListen == null) {
+            Log.d("[VareListe]", "Not properly initialzied");
+        } else {
+            VareListen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Vare v = varer.get(position);
+                    v.incrementPrice();
+
+                    restDbAdapter.updateVare(v.toJSONObject(),v.getVareNummer());
+                }
+            });
+        }
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+    }
     @Override
     public void HandleError() {
         // on error

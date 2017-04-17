@@ -96,6 +96,10 @@ public class Vare {
         return vare;
     }
 
+    public void incrementPrice()
+    {
+        pris += 1.0;
+    }
     @Override
     public String toString() {
         return String.format("[%s] %s : %f", vareNummer, betegnelse, pris);

@@ -48,16 +48,20 @@ public class RestAdapter {
 
     public void getVarer()
     {
+        // task can only be executed once
+        asyncAdapter = new JSONAdapter();
         asyncAdapter.setMethod(GET);
         asyncAdapter.execute();
     }
     public void insertVare(JSONObject vare) {
+        asyncAdapter = new JSONAdapter();
         asyncAdapter.setMethod(POST);
         asyncAdapter.setVare(vare);
         asyncAdapter.execute();
     }
 
     public void updateVare(JSONObject v, String key) {
+        asyncAdapter = new JSONAdapter();
         asyncAdapter.setMethod(PUT);
         asyncAdapter.setVareNr(key);
         asyncAdapter.setVare(v);
@@ -65,6 +69,7 @@ public class RestAdapter {
     }
 
     public void deleteVare(String vareNr) {
+        asyncAdapter = new JSONAdapter();
         asyncAdapter.setMethod(DELETE);
         asyncAdapter.setVareNr(vareNr);
         asyncAdapter.execute();
@@ -160,9 +165,9 @@ public class RestAdapter {
                             sb.append(response);
                         }
                         response = sb.toString();
-                        // hvis oppdateringen g[r bra returnerer api.php 0, ellers 1.
                         if (HTTPRMethod == GET && response.length() != 0) return 0L;
-                        if (response.equals("1")) return 1L;
+                        // hvis oppdateringen g[r bra returnerer api.php 0, ellers 1.
+                        if (response.equals("0")) return 1L;
                     }
                 } else {
                     return 1l;
