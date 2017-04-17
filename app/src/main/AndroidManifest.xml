@@ -21,7 +21,11 @@
         <activity
             android:name=".vare_liste"
             android:label="@string/title_activity_vare_liste"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jo.obligatorisk2.MainActivity"/>
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"

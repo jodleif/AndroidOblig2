@@ -29,8 +29,8 @@ public class vare_liste extends AppCompatActivity implements Callback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vare_liste);
         VareListen = (ListView) findViewById(R.id.vare_liste);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         //if(isOnline()) {
             restFetcher.getVareListe();
         //}
