@@ -13,9 +13,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void Lal(View v)
+    public void showVareListe(View v)
     {
         Intent intent = new Intent(this, vare_liste.class);
+        startActivity(intent);
+    }
+
+    public void showSettings(View v)
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }
