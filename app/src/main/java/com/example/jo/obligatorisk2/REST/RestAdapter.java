@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.jo.obligatorisk2.AConfig;
-import com.example.jo.obligatorisk2.DataModell.Vare;
 
 import org.json.JSONObject;
 
@@ -22,19 +21,45 @@ import static com.example.jo.obligatorisk2.REST.Type.*;
 
 public class RestAdapter {
 
-    private VareAdapter asyncAdapter = new VareAdapter();
-    private static final String uri = AConfig.APP_URI + "/Vare";
+    private JSONAdapter asyncAdapter = new JSONAdapter();
+    private String uri = AConfig.APP_URI + "/Vare";
     private static final String[] CONTENT_TYPE = {"content-type", "application/json; charset=UTF-8"};
+    RCallback cb;
 
-    public void insertVare(Vare vare) {
+    public RestAdapter() {
+        // default
+    }
+
+    public RestAdapter(String URI)
+    {
+        this(URI, null);
+    }
+
+    public RestAdapter(RCallback cb)
+    {
+        this.cb = cb;
+    }
+
+    public RestAdapter(String URI, RCallback cb)
+    {
+        this.cb = cb;
+        this.uri = URI;
+    }
+
+    public void getVarer()
+    {
+        asyncAdapter.setMethod(GET);
+        asyncAdapter.execute();
+    }
+    public void insertVare(JSONObject vare) {
         asyncAdapter.setMethod(POST);
         asyncAdapter.setVare(vare);
         asyncAdapter.execute();
     }
 
-    public void updateVare(Vare v) {
+    public void updateVare(JSONObject v, String key) {
         asyncAdapter.setMethod(PUT);
-        asyncAdapter.setVareNr(v.getVareNummer());
+        asyncAdapter.setVareNr(key);
         asyncAdapter.setVare(v);
         asyncAdapter.execute();
     }
@@ -45,12 +70,13 @@ public class RestAdapter {
         asyncAdapter.execute();
     }
 
-    private class VareAdapter extends AsyncTask<String, String, Long> {
-        private String HTTPRMethod;
-        private Vare v;
+    private class JSONAdapter extends AsyncTask<String, String, Long> {
+        private Type HTTPRMethod;
+        private JSONObject v;
         private String vareNr;
+        private String response;
 
-        void setVare(Vare vare) {
+        void setVare(JSONObject vare) {
             v = vare;
         }
 
@@ -59,31 +85,41 @@ public class RestAdapter {
         }
 
         public void setMethod(Type t) {
-            HTTPRMethod = s(t);
+            HTTPRMethod = t;
         }
 
         @Override
         protected void onPostExecute(Long result) {
             Log.d("HTTP ", String.format("result of %s: %s", HTTPRMethod, result));
-            if (result == 0l) {
 
+            if (result == 0l) {
+                if(cb != null) {
+                    cb.HandleResult(HTTPRMethod, response);
+                }
             } else {
                 // fail
+                if(cb != null) {
+                    cb.HandleError();
+                }
             }
         }
 
         private boolean vnrRequired() {
-            return (HTTPRMethod.equals(s(PUT)) || HTTPRMethod.equals(s(DELETE)));
+            return (HTTPRMethod.equals(PUT) || HTTPRMethod.equals(DELETE));
         }
 
         private boolean sendData() {
-            return (HTTPRMethod.equals(s(PUT)) || HTTPRMethod.equals(s(POST)));
+            return (HTTPRMethod.equals(PUT) || HTTPRMethod.equals(POST));
         }
 
         private URL getUri(boolean varenr) {
             try {
                 if (varenr) {
                     return new URL(String.format("%s/%s", uri, vareNr));
+                }
+                //JSON formattert output
+                if(HTTPRMethod == GET) {
+                    return new URL(String.format("%s?Order=betegnelse,asc&transform=1",uri));
                 }
                 return new URL(uri);
             } catch (Exception e) {
@@ -96,12 +132,14 @@ public class RestAdapter {
         protected Long doInBackground(String... params) {
             URL vURL = getUri(vnrRequired());
             if (vURL == null) return -1L;
+            // clear response
+            response = null;
 
             HttpURLConnection connection = null;
             try {
                 connection = (HttpURLConnection) vURL.openConnection();
                 connection.setDoInput(true);
-                connection.setRequestMethod(HTTPRMethod);
+                connection.setRequestMethod(s(HTTPRMethod));
                 if (sendData()) {
                     connection.setDoOutput(true);
                     connection.setChunkedStreamingMode(0);
@@ -109,30 +147,29 @@ public class RestAdapter {
                 }
                 connection.connect();
                 if (sendData()) {
-                    JSONObject jvare = v.toJSONObject();
                     // with-open (auto close)
                     try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
-                        out.write(jvare.toString());
+                        out.write(v.toString());
                     }
                 }
                 int status = connection.getResponseCode();
                 if (status == HttpURLConnection.HTTP_OK) {
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                        String responseString;
                         StringBuilder sb = new StringBuilder();
-                        while ((responseString = reader.readLine()) != null) {
-                            sb.append(responseString);
+                        while ((response = reader.readLine()) != null) {
+                            sb.append(response);
                         }
-                        responseString = sb.toString();
+                        response = sb.toString();
                         // hvis oppdateringen g[r bra returnerer api.php 0, ellers 1.
-                        if (responseString.equals("1")) return 1L;
+                        if (HTTPRMethod == GET && response.length() != 0) return 0L;
+                        if (response.equals("1")) return 1L;
                     }
                 } else {
                     return 1l;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("[VareAdapter]", "Exception thrown");
+                Log.d("[JSONAdapter]", "Exception thrown");
                 return 1l;
             } finally {
                 if (connection != null)
