@@ -32,7 +32,7 @@ public enum Kategori {
 
     public String displayName()
     {
-        return beksrivelse[katNr-1];
+        return beskrivelse[katNr-1];
     }
 
     public int kategori()
@@ -45,7 +45,7 @@ public enum Kategori {
         return k.displayName();
     }
 /// boilerplate
-    static final String[] beksrivelse =
+    static final String[] beskrivelse =
                     {"Hageutstyr",
                     "Hobbymaling",
                     "Keramikk",
