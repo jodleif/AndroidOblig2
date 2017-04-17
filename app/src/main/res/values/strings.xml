@@ -3,4 +3,7 @@
     <string name="title_activity_vare_liste">vare_liste</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_username">John Doe</string>
+    <bool name="show_username">false</bool>
 </resources>
