@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showVareListe(View v)
     {
-        Intent intent = new Intent(this, vare_liste.class);
+        Intent intent = new Intent(this, VareListe.class);
         startActivity(intent);
     }
 

@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class vare_listeFragment extends Fragment {
+public class VareListeFragment extends Fragment {
 
-    public vare_listeFragment() {
+    public VareListeFragment() {
     }
 
     @Override

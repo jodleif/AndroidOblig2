@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jo.obligatorisk2.vare_liste">
+    tools:context="com.example.jo.obligatorisk2.VareListe">
 
     <include layout="@layout/content_vare_liste" />
 

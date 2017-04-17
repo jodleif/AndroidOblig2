@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".vare_liste"
+            android:name=".VareListe"
             android:label="@string/title_activity_vare_liste"
             android:parentActivityName=".MainActivity">
             <meta-data

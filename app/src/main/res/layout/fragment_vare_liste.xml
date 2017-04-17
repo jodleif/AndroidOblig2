@@ -4,7 +4,7 @@
     android:id="@+id/layout_vareliste"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jo.obligatorisk2.vare_listeFragment"
+    tools:context="com.example.jo.obligatorisk2.VareListeFragment"
     tools:showIn="@layout/activity_vare_liste">
 
 

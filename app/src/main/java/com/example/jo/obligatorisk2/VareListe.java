@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -16,7 +15,7 @@ import com.example.jo.obligatorisk2.REST.RestFetcher;
 
 import java.util.ArrayList;
 
-public class vare_liste extends AppCompatActivity implements Callback{
+public class VareListe extends AppCompatActivity implements Callback{
     final public static String URI = "http://itfag.usn.no/~211629/api.php/Vare?order=Betegnelse,asc";
     private ArrayList<Vare> varer = new ArrayList<Vare>();
     private ArrayAdapter<Vare> vareAdapter = null;
@@ -29,8 +28,6 @@ public class vare_liste extends AppCompatActivity implements Callback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vare_liste);
         VareListen = (ListView) findViewById(R.id.vare_liste);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         //if(isOnline()) {
             restFetcher.getVareListe();
         //}
