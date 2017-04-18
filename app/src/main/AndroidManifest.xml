@@ -35,6 +35,7 @@
                 android:value="com.example.jo.obligatorisk2.MainActivity" />
         </activity>
         <activity android:name=".VareDetail"
+            android:label="Vare-detaljer"
             android:parentActivityName=".VareListe">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
