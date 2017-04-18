@@ -2,6 +2,7 @@ package com.example.jo.obligatorisk2;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,12 @@ import com.example.jo.obligatorisk2.REST.Type;
 
 import java.util.ArrayList;
 
+/**
+ * En aktivitet som forventer en intent som inneholder en vare.
+ * Denne aktiviteten viser detaljert informasjon om varen,
+ * og ved et trykk p[ floatingactionbutton gjøres et REST
+ * kall til endepunktet med oppdatert informasjon
+ */
 public class VareDetail extends AppCompatActivity implements RCallback{
     RestAdapter restAdapter = new RestAdapter(this);
     Spinner spinner;
@@ -82,6 +89,8 @@ public class VareDetail extends AppCompatActivity implements RCallback{
         vare.setPris(Double.valueOf(pris.getText().toString()));
         vare.setBetegnelse(beskrivelse.getText().toString());
         vare.setHylle(hylle.getText().toString());
+        //Kategori nummer starter fra 1
+        vare.setKatnr(spinner.getSelectedItemPosition()+1);
         return true;
     }
 
@@ -96,11 +105,14 @@ public class VareDetail extends AppCompatActivity implements RCallback{
 
     @Override
     public void HandleResult(Type t, String result) {
-        
+        Snackbar.make(findViewById(R.id.vare_detail), String.format("Oppdatert vare: %s",vnr), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
     public void HandleError() {
+        Snackbar.make(findViewById(R.id.vare_detail), String.format("Oppdatering feilet!",vnr), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
 
     }
 }

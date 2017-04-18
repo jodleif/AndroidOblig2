@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/vare_detail"
     tools:context="com.example.jo.obligatorisk2.VareDetail"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
@@ -35,7 +36,6 @@
         android:id="@+id/kat_e_gori"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/android_is_crap"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="135dp" />
 
