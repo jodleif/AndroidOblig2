@@ -1,5 +1,6 @@
 package com.example.jo.obligatorisk2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,7 @@ public class VareListe extends AppCompatActivity implements RCallback {
 
     private void addClickHandlers()
     {
+        final VareListe self = this;
         if(VareListen == null) {
             Log.d("[VareListe]", "Not properly initialzied");
         } else {
@@ -61,9 +63,8 @@ public class VareListe extends AppCompatActivity implements RCallback {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Vare v = varer.get(position);
-                    v.incrementPrice();
-
-                    restDbAdapter.updateVare(v.toJSONObject(),v.getVareNummer());
+                    Intent i = new Intent(self, VareDetail.class);
+                    startActivity(i);
                 }
             });
         }

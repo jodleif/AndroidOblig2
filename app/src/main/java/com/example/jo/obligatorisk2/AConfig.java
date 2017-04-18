@@ -5,5 +5,5 @@ package com.example.jo.obligatorisk2;
  */
 
 public class AConfig {
-    public static final String APP_URI = "http://itfag.usn.no/~211629/api.php";
+    public static final String APP_URI = "http://rest.jooivind.com/api.php";
 }
