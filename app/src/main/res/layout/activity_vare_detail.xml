@@ -32,9 +32,10 @@
         tools:layout_editor_absoluteY="74dp" />
 
     <Spinner
-        android:id="@+id/Kategori"
+        android:id="@+id/kat_e_gori"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:entries="@array/android_is_crap"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="135dp" />
 
@@ -56,5 +57,13 @@
         android:text="Hylle"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="246dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_send" />
 
 </LinearLayout>

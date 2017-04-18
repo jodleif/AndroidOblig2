@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InvalidObjectException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static com.example.jo.obligatorisk2.DataModell.VareTabell.*;
@@ -13,9 +14,10 @@ import static com.example.jo.obligatorisk2.DataModell.VareTabell.*;
 /**
  * Created by Jo on 16.04.2017.
  *
+ * Implementerer serializable slik at den kan sendes med en intent
  */
 
-public class Vare {
+public class Vare implements Serializable {
     // Felter
     private String vareNummer;
     private String betegnelse;

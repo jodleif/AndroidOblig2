@@ -7,4 +7,9 @@
     <string name="pref_username">John Doe</string>
     <bool name="show_username">false</bool>
     <string name="title_activity_vare_liste_filter">VareListeFilter</string>
+
+    <string-array name="android_is_crap">
+        <item>Zero</item>
+    </string-array>
+
 </resources>

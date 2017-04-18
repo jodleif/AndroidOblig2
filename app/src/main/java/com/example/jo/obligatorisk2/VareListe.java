@@ -64,6 +64,7 @@ public class VareListe extends AppCompatActivity implements RCallback {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Vare v = varer.get(position);
                     Intent i = new Intent(self, VareDetail.class);
+                    i.putExtra("Vare",v);
                     startActivity(i);
                 }
             });
