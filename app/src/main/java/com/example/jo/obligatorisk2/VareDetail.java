@@ -1,55 +1,90 @@
 package com.example.jo.obligatorisk2;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.jo.obligatorisk2.DataModell.Kategori;
 import com.example.jo.obligatorisk2.DataModell.Vare;
+import com.example.jo.obligatorisk2.REST.RCallback;
 import com.example.jo.obligatorisk2.REST.RestAdapter;
+import com.example.jo.obligatorisk2.REST.Type;
 
 import java.util.ArrayList;
 
-public class VareDetail extends AppCompatActivity {
-    RestAdapter restAdapter = new RestAdapter();
+public class VareDetail extends AppCompatActivity implements RCallback{
+    RestAdapter restAdapter = new RestAdapter(this);
     Spinner spinner;
 
     String vnr;
+    Vare vare;
     EditText beskrivelse;
     EditText antall;
     EditText pris;
     EditText hylle;
+    FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vare_detail);
+        hookControls();
+        setUpSpinner();
+        setUpSendButton();
+        tryToSetUpFromVare(getIntent());
+    }
+
+    private void hookControls()
+    {
         spinner = (Spinner) findViewById(R.id.kat_e_gori);
         pris = (EditText) findViewById(R.id.PrisEdit);
         beskrivelse = (EditText)  findViewById(R.id.Beskrivelse);
         antall = (EditText)  findViewById(R.id.antall);
         hylle = (EditText) findViewById(R.id.Hylle);
-        setUpSpinner();
-        tryToSetUpFromVare(getIntent());
+        fab = (FloatingActionButton) findViewById(R.id.fab_detail);
     }
-
     private boolean tryToSetUpFromVare(Intent i)
     {
-        Vare v =  (Vare)i.getSerializableExtra("Vare");
-        if(v == null) return false;
+        vare =  (Vare)i.getSerializableExtra("Vare");
+        if(vare == null) return false;
         // kategori
-        int katPos = v.getKatnr()-1;
+        int katPos = vare.getKatnr()-1;
         if(katPos < 0 || katPos > spinner.getAdapter().getCount()) throw new IllegalArgumentException("[VareDetail]Index out of bounds");
-        vnr = v.getVareNummer();
+        vnr = vare.getVareNummer();
         spinner.setSelection(katPos);
-        antall.setText(String.valueOf(v.getAntall()));
-        beskrivelse.setText(v.getBetegnelse());
-        pris.setText(String.valueOf(v.getPris()));
-        hylle.setText(v.getHylle());
+        antall.setText(String.valueOf(vare.getAntall()));
+        beskrivelse.setText(vare.getBetegnelse());
+        pris.setText(String.valueOf(vare.getPris()));
+        hylle.setText(vare.getHylle());
         return true;
     }
+
+    private void setUpSendButton()
+    {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(activityToVare()) {
+                    restAdapter.updateVare(vare.toJSONObject(), vnr);
+                }
+            }
+        });
+    }
+
+    private boolean activityToVare()
+    {
+        if (vare == null) return false;
+        vare.setAntall(Integer.valueOf(antall.getText().toString()));
+        vare.setPris(Double.valueOf(pris.getText().toString()));
+        vare.setBetegnelse(beskrivelse.getText().toString());
+        vare.setHylle(hylle.getText().toString());
+        return true;
+    }
+
 
     private void setUpSpinner()
     {
@@ -59,4 +94,13 @@ public class VareDetail extends AppCompatActivity {
         spinner.setAdapter(kategorier);
     }
 
+    @Override
+    public void HandleResult(Type t, String result) {
+        
+    }
+
+    @Override
+    public void HandleError() {
+
+    }
 }

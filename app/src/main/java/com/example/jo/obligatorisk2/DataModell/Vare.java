@@ -140,4 +140,28 @@ public class Vare implements Serializable {
     public String getHylle() {
         return hylle;
     }
+
+    public void setVareNummer(String vareNummer) {
+        this.vareNummer = vareNummer;
+    }
+
+    public void setBetegnelse(String betegnelse) {
+        this.betegnelse = betegnelse;
+    }
+
+    public void setPris(double pris) {
+        this.pris = pris;
+    }
+
+    public void setKatnr(int katnr) {
+        this.katnr = katnr;
+    }
+
+    public void setAntall(int antall) {
+        this.antall = antall;
+    }
+
+    public void setHylle(String hylle) {
+        this.hylle = hylle;
+    }
 }
