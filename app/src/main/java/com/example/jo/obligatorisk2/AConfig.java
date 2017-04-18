@@ -2,6 +2,8 @@ package com.example.jo.obligatorisk2;
 
 /**
  * Created by Jo on 16.04.2017.
+ *
+ * Global config parameters
  */
 
 public class AConfig {
